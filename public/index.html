@@ -1,33 +1,85 @@
-<section id="productos" class="container">
-        <h2 class="section-title">Nuestros Productos</h2>
-        <div class="product-grid">
-            <div class="product-card" style="border: 2px dashed var(--blue-primary);">
-                <div class="product-img">🍾</div>
-                <h3>Botella de Prueba</h3>
-                <p>Uso exclusivo para test real</p>
-                <p class="price" data-price="100">$100</p>
-                <button class="add-to-cart" data-id="0" data-name="Prueba Real">Añadir Test</button>
-            </div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aguas Puerto Montt | Pureza a tu Hogar</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
 
-            <div class="product-card">
-                <div class="product-img">💧</div>
-                <h3>Recarga Bidón 20L</h3>
-                <p class="price" data-price="3500">$3.500</p>
-                <button class="add-to-cart" data-id="1" data-name="Recarga 20L">Añadir</button>
-            </div>
-
-            <div class="product-card">
-                <div class="product-img">💎</div>
-                <h3>Bidón Nuevo + Recarga</h3>
-                <p class="price" data-price="8500">$8.500</p>
-                <button class="add-to-cart" data-id="2" data-name="Pack Inicial">Añadir</button>
-            </div>
-
-            <div class="product-card">
-                <div class="product-img">🌊</div>
-                <h3>Dispensador Simple</h3>
-                <p class="price" data-price="5000">$5.000</p>
-                <button class="add-to-cart" data-id="3" data-name="Dispensador">Añadir</button>
+    <header class="main-header">
+        <div class="container nav-container">
+            <div class="logo">💧 Aguas <span>Puerto Montt</span></div>
+            <div class="cart-wrapper" id="cart-btn">
+                <span class="cart-icon">🛒</span>
+                <span id="cart-count" class="badge">0</span>
             </div>
         </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Pureza en cada gota</h1>
+            <p>Reparto a domicilio en todo el sector. Calidad garantizada.</p>
+        </div>
     </section>
+
+    <main class="container">
+        <h2 class="section-title">Nuestros Productos</h2>
+        <div class="product-grid">
+            
+            <div class="product-card test-card">
+                <div class="product-badge">Test Real</div>
+                <div class="product-emoji">🍾</div>
+                <h3>Botella de Prueba</h3>
+                <p class="price" data-price="100">$100</p>
+                <button class="add-to-cart" data-id="0" data-name="Botella Prueba">Añadir Test</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-emoji">💧</div>
+                <h3>Recarga Bidón 20L</h3>
+                <p class="price" data-price="3500">$3.500</p>
+                <button class="add-to-cart" data-id="1" data-name="Recarga 20L">Añadir al Carrito</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-emoji">💎</div>
+                <h3>Bidón Nuevo + Recarga</h3>
+                <p class="price" data-price="8500">$8.500</p>
+                <button class="add-to-cart" data-id="2" data-name="Pack Inicial">Añadir al Carrito</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-emoji">🌊</div>
+                <h3>Dispensador Simple</h3>
+                <p class="price" data-price="5000">$5.000</p>
+                <button class="add-to-cart" data-id="3" data-name="Dispensador">Añadir al Carrito</button>
+            </div>
+        </div>
+    </main>
+
+    <aside id="side-cart" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Mi Pedido</h3>
+            <button id="close-cart" class="close-btn">&times;</button>
+        </div>
+        <div id="cart-items-container" class="cart-body">
+            <p class="empty-msg">El carrito está vacío</p>
+        </div>
+        <div class="cart-footer">
+            <div class="total-row">
+                <span>Total a pagar:</span>
+                <span id="cart-total">$0</span>
+            </div>
+            <button class="btn-checkout">Pagar con Mercado Pago</button>
+        </div>
+    </aside>
+
+    <div id="overlay" class="overlay"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
