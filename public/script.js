@@ -6,11 +6,12 @@ const overlay = document.getElementById('overlay');
 const cartItemsContainer = document.getElementById('cart-items-container');
 const cartCount = document.getElementById('cart-count');
 const cartTotal = document.getElementById('cart-total');
+const checkoutBtn = document.querySelector('.btn-checkout'); // Referencia al botón de pago
 
 // Estado del Carrito
 let cart = [];
 
-// Función para abrir/cerrar el carrito (Toggles la clase 'active')
+// Función para abrir/cerrar el carrito
 const toggleCart = () => {
     sideCart.classList.toggle('active');
     overlay.classList.toggle('active');
@@ -26,7 +27,6 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
     button.addEventListener('click', (e) => {
         const id = e.target.dataset.id;
         const name = e.target.dataset.name;
-        // El precio se extrae del elemento HTML previo (.price)
         const priceElement = e.target.previousElementSibling;
         const price = parseInt(priceElement.dataset.price);
 
@@ -38,24 +38,52 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
             cart.push({ id, name, price, quantity: 1 });
         }
         
-        // Actualizar UI y abrir el carrito automáticamente para confirmación visual
         updateUI();
         if(!sideCart.classList.contains('active')) toggleCart();
     });
 });
 
+// FUNCIÓN PARA PAGAR CON MERCADO PAGO (La pieza que faltaba)
+checkoutBtn.addEventListener('click', async () => {
+    if (cart.length === 0) {
+        alert("Tu carrito está vacío.");
+        return;
+    }
+
+    // Cambiamos el texto del botón para que el usuario sepa que está cargando
+    checkoutBtn.innerText = "Cargando pago...";
+    checkoutBtn.disabled = true;
+
+    try {
+        const response = await fetch('/create_preference', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ items: cart })
+        });
+
+        const data = await response.json();
+
+        // Redirigir al Checkout de Mercado Pago
+        window.location.href = data.init_point;
+        
+    } catch (error) {
+        console.error("Error al procesar el pago:", error);
+        alert("Hubo un error al conectar con Mercado Pago.");
+        checkoutBtn.innerText = "Finalizar Compra";
+        checkoutBtn.disabled = false;
+    }
+});
+
 // Función para renderizar la Interfaz del Carrito
 function updateUI() {
-    // 1. Contador del Icono
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
     cartCount.innerText = totalItems;
 
-    // 2. Renderizar items en el body
     if (cart.length === 0) {
-        // Volver a poner el texto que se ve en la imagen original si está vacío
         cartItemsContainer.innerHTML = '<p class="empty-msg">No hay productos aún.</p>';
     } else {
-        // Renderizado interactivo de cada item
         cartItemsContainer.innerHTML = cart.map(item => `
             <div class="cart-item" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px;">
                 <div style="flex:1;">
@@ -67,7 +95,6 @@ function updateUI() {
         `).join('');
     }
 
-    // 3. Actualizar Total con formato de moneda chilena
     const totalMoney = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     cartTotal.innerText = `$${totalMoney.toLocaleString('es-CL')}`;
 }
