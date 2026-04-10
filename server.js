@@ -5,20 +5,19 @@ const path = require('path');
 
 const app = express();
 
-// Configuración para procesar JSON y permitir conexiones externas
+// Middlewares
 app.use(express.json());
 app.use(cors());
 
-// Servir archivos estáticos (tu HTML, CSS y JS del carrito)
-// Estos deben estar dentro de una carpeta llamada "public"
+// Servir archivos estáticos desde la carpeta "public"
 app.use(express.static(path.join(__dirname, 'public')));
 
-// CONFIGURACIÓN DE MERCADO PAGO CON TU TOKEN DE PRUEBA
+// CONFIGURACIÓN DE MERCADO PAGO - MODO PRODUCCIÓN
 mercadopago.configure({
-    access_token: 'TEST-3513321670312550-041015-b30ddfbf99dd047152c2953d5d9e13b5-106474076'
+    access_token: 'APP_USR-3513321670312550-041015-61260e2a418908f0a2dcbd992e6131bc-106474076'
 });
 
-// RUTA PARA CREAR EL PAGO
+// RUTA PARA CREAR LA PREFERENCIA DE PAGO
 app.post('/create_preference', (req, res) => {
     let preference = {
         items: req.body.items.map(item => ({
@@ -27,26 +26,30 @@ app.post('/create_preference', (req, res) => {
             quantity: Number(item.quantity),
             currency_id: 'CLP'
         })),
+        // URLs a las que el cliente vuelve tras el pago
         back_urls: {
             success: "https://aguas-puerto-montt.onrender.com", 
             failure: "https://aguas-puerto-montt.onrender.com",
             pending: "https://aguas-puerto-montt.onrender.com"
         },
-        auto_return: "approved",
+        auto_return: "approved", // Redirección automática si el pago es exitoso
     };
 
     mercadopago.preferences.create(preference)
-        .then(response => {
-            res.json({ id: response.body.id, init_point: response.body.init_point });
+        .then(function (response) {
+            res.json({
+                id: response.body.id,
+                init_point: response.body.init_point // Este es el link real de cobro
+            });
         })
-        .catch(error => {
-            console.error(error);
-            res.status(500).json({ error: "Error al crear pago" });
+        .catch(function (error) {
+            console.error("Error en Mercado Pago:", error);
+            res.status(500).json({ error: "Error al generar el pago real" });
         });
 });
 
-// PUERTO DINÁMICO (Vital para Render.com)
+// Iniciar el servidor en el puerto que asigne Render
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Servidor activo en puerto ${PORT}`);
+    console.log(`Tienda de Aguas Puerto Montt en vivo en puerto ${PORT}`);
 });
