@@ -1,0 +1,256 @@
+/* =========================================
+   1. Variables y Reset Global (Solución de Base)
+   ========================================= */
+:root {
+    --blue-primary: #0070f3; /* Azul profesional e interactivo */
+    --blue-dark: #0051a8;
+    --dark-text: #1a1a1a;
+    --gray-bg: #f8f9fa;
+    --white: #ffffff;
+    --shadow: 0 4px 6px rgba(0,0,0,0.05);
+    --shadow-hover: 0 10px 15px rgba(0,0,0,0.1);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; } /* Desplazamiento suave al hacer clic en enlaces */
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--dark-text);
+    background-color: var(--white);
+    line-height: 1.6;
+    overflow-x: hidden; /* Previene scroll horizontal no deseado */
+}
+
+/* =========================================
+   2. Header y Navegación (Corrigiendo el espaciado)
+   ========================================= */
+header {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(5px); /* Efecto cristal suave */
+    padding: 15px 5%;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.03);
+    display: flex;
+    justify-content: center;
+}
+
+.navbar {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo { font-size: 1.5rem; font-weight: 700; color: var(--dark-text); text-decoration: none; }
+.logo span { color: var(--blue-primary); }
+
+.nav-right { display: flex; align-items: center; gap: 30px; }
+
+.nav-links { display: flex; list-style: none; gap: 25px; }
+.nav-links a {
+    text-decoration: none;
+    color: var(--dark-text);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: var(--transition);
+}
+.nav-links a:hover { color: var(--blue-primary); }
+
+.cart-icon {
+    cursor: pointer;
+    position: relative;
+    font-size: 1.6rem;
+    transition: var(--transition);
+}
+.cart-icon:hover { transform: scale(1.1); }
+
+#cart-count {
+    position: absolute; top: -5px; right: -10px;
+    background: var(--blue-primary);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 7px;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* =========================================
+   3. Hero Section (Mejorando el impacto visual)
+   ========================================= */
+.hero {
+    height: 80vh;
+    /* Imagen profesional de fondo para sorprender */
+    background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.9)), url('https://images.unsplash.com/photo-1548839140-29a749e1cf3d?q=80&w=2000') center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 80px; /* Compensa el header fijo */
+}
+
+.hero-content { max-width: 700px; padding: 20px; }
+.hero-content h1 { font-size: 3.5rem; font-weight: 700; margin-bottom: 15px; color: var(--dark-text); line-height: 1.2; }
+.hero-content p { font-size: 1.2rem; color: #555; margin-bottom: 30px; }
+
+.btn-primary {
+    background: var(--blue-primary);
+    color: white;
+    padding: 16px 45px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+}
+.btn-primary:hover { background: var(--blue-dark); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,112,243,0.3); }
+
+/* =========================================
+   4. Sección Productos (Perfeccionando el Grid y Cards)
+   ========================================= */
+.container { padding: 100px 5%; max-width: 1200px; margin: 0 auto; }
+.section-title { text-align: center; margin-bottom: 60px; font-size: 2.5rem; color: var(--dark-text); position: relative; }
+.section-title::after { content: ''; display: block; width: 60px; height: 4px; background: var(--blue-primary); margin: 15px auto 0; border-radius: 2px; }
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+}
+
+.product-card {
+    background: var(--white);
+    border: 1px solid #eee;
+    padding: 35px;
+    border-radius: 20px;
+    text-align: center;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+.product-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-hover); border-color: transparent; }
+
+.product-img { font-size: 5rem; margin-bottom: 25px; line-height: 1; }
+.product-card h3 { font-size: 1.3rem; margin-bottom: 10px; color: var(--dark-text); }
+.price { font-weight: 700; color: var(--blue-primary); margin-bottom: 25px; font-size: 1.6rem; }
+
+.add-to-cart {
+    background: #333; /* Color neutro para el botón secundario */
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    width: 100%;
+}
+.add-to-cart:hover { background: var(--blue-primary); }
+
+/* =========================================
+   5. Carrito Lateral (Side-Cart) - SOLUCIÓN TÉCNICA
+   ========================================= */
+.cart-sidebar {
+    position: fixed;
+    right: -400px; /* Oculto completamente a la derecha */
+    top: 0;
+    width: 380px;
+    height: 100%;
+    background: var(--white);
+    z-index: 2000;
+    transition: 0.5s cubic-bezier(0.77, 0, 0.175, 1); /* Transición premium suave */
+    display: flex;
+    flex-direction: column;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+}
+
+/* Clase que activa el JS para mostrar el carrito */
+.cart-sidebar.active { right: 0; }
+
+.cart-header {
+    padding: 25px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--gray-bg);
+}
+.cart-header h3 { font-size: 1.3rem; }
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #888;
+    transition: var(--transition);
+    line-height: 1;
+}
+.close-btn:hover { color: var(--blue-primary); }
+
+.cart-body {
+    flex: 1;
+    padding: 25px;
+    overflow-y: auto; /* Scroll interno si hay muchos productos */
+}
+.empty-msg { text-align: center; color: #888; font-style: italic; margin-top: 50px; }
+
+.cart-footer {
+    padding: 25px;
+    border-top: 1px solid #eee;
+    background-color: var(--gray-bg);
+}
+.total-row { display: flex; justify-content: space-between; font-weight: 700; font-size: 1.4rem; margin-bottom: 20px; color: var(--dark-text); }
+
+.btn-checkout {
+    width: 100%;
+    background: #25d366; /* Verde WhatsApp oficial */
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.btn-checkout:hover { background: #1ebe57; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(37,211,102,0.3); }
+
+/* Overlay oscuro de fondo */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(2px);
+    visibility: hidden; /* Oculto por defecto */
+    opacity: 0;
+    z-index: 1500;
+    transition: var(--transition);
+}
+.overlay.active { visibility: visible; opacity: 1; }
+
+/* Responsive para Móvil (Importante para un diseño perfecto) */
+@media (max-width: 768px) {
+    .navbar { padding: 0 10px; }
+    .hero-content h1 { font-size: 2.2rem; }
+    .nav-links { display: none; } /* Ocultamos enlaces en móvil por ahora */
+    .cart-sidebar { width: 100%; right: -100%; } /* Carrito ocupa toda la pantalla */
+}
